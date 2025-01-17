@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Fri Sep 20 10:15:51 2024
+Created on Thu Jan 16 00:04:32 2025
 
 @author: nephilim
 """
@@ -13,6 +13,13 @@ import MultiScale
 from Optimization import para
 import Forward2DFilter
 import AirForward2DFilter
+
+def add_gaussian_noise(signal, SNR_dB):
+    signal_float = signal.astype(float)
+    signal_power = np.sum(signal_float ** 2) / signal_float.size
+    noise_power = signal_power / (10 ** (SNR_dB / 10))    
+    noise = np.random.normal(0, np.sqrt(noise_power), signal.shape)
+    return noise
 
 if __name__=='__main__':
     # Model Params
@@ -62,8 +69,8 @@ if __name__=='__main__':
     para.Original_data=np.load('./%sHz_forward_data_file/record.npy'%para.Freq)
     para.Air_True_Profile_Original=AirForward2DFilter.Forward_2D(np.zeros_like(sigma),np.ones_like(epsilon),np.ones_like(mu),para.Freq,para)
     para.Original_data=para.Original_data-np.tile(para.Air_True_Profile_Original,(para.Original_data.shape[1],1)).T
-
-
+    # Noise=np.load('Add_Noise.npy')
+    # para.Original_data+=Noise
     # pyplot.figure()
     # t=np.arange(para.k_max)*para.dt
     # f=Wavelet.ricker(t,para.Freq)
@@ -84,4 +91,4 @@ if __name__=='__main__':
     ax.set_yticklabels([0,10,20,30,40])
     ax.set_xlabel('Distance (m)')
     ax.set_ylabel('Time (ns)') 
-    np.save('Test04_400MHZ_Filter_Original_data.npy',para.Original_data)
+    np.save('Add_Noise_Test04_400MHZ_Filter_Original_data.npy',para.Original_data)

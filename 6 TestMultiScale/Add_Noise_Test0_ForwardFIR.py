@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Fri Sep 20 10:15:51 2024
+Created on Wed Jan 15 23:58:05 2025
 
 @author: nephilim
 """
@@ -11,8 +11,15 @@ from matplotlib import pyplot,cm
 import Wavelet
 import MultiScale
 from Optimization import para
-import Forward2DFilter
-import AirForward2DFilter
+import Forward2D
+import AirForward2D
+
+def add_gaussian_noise(signal, SNR_dB):
+    signal_float = signal.astype(float)
+    signal_power = np.sum(signal_float ** 2) / signal_float.size
+    noise_power = signal_power / (10 ** (SNR_dB / 10))    
+    noise = np.random.normal(0, np.sqrt(noise_power), signal.shape)
+    return noise
 
 if __name__=='__main__':
     # Model Params
@@ -29,7 +36,7 @@ if __name__=='__main__':
     para.MultiScale_Key=True
     para.fs=1/para.dt
     Target_freq=2e8
-    para.target_freq=Target_freq
+    
     # True Model
     epsilon_=np.load('LayerModel.npy')
     epsilon=np.zeros((para.xl+20,para.zl+20))
@@ -56,24 +63,29 @@ if __name__=='__main__':
         para.receiver_site.append((10,index))
             
     # Get True Model Data
-    Forward2DFilter.Forward_2D(sigma.copy(),epsilon.copy(),mu.copy(),para)
+    Forward2D.Forward_2D(sigma.copy(),epsilon.copy(),mu.copy(),para)
         
     # Save Profile Data
     para.Original_data=np.load('./%sHz_forward_data_file/record.npy'%para.Freq)
-    para.Air_True_Profile_Original=AirForward2DFilter.Forward_2D(np.zeros_like(sigma),np.ones_like(epsilon),np.ones_like(mu),para.Freq,para)
+    para.Air_True_Profile_Original=AirForward2D.Forward_2D(np.zeros_like(sigma),np.ones_like(epsilon),np.ones_like(mu),para.Freq,para)
     para.Original_data=para.Original_data-np.tile(para.Air_True_Profile_Original,(para.Original_data.shape[1],1)).T
-
-
+    Noise=add_gaussian_noise(para.Original_data, 10)
+    para.Original_data+=Noise
+    
+    para.data=np.zeros_like(para.Original_data)
+    for idx_data_col in np.arange(para.data.shape[1]):
+        para.data[:,idx_data_col]=MultiScale.apply_filter(para.Original_data[:,idx_data_col],para.fs,Target_freq)
+    para.Air_True_Profile=MultiScale.apply_filter(para.Air_True_Profile_Original,para.fs,Target_freq)
+    
     # pyplot.figure()
     # t=np.arange(para.k_max)*para.dt
     # f=Wavelet.ricker(t,para.Freq)
-    # f=MultiScale.apply_filter(f,para.fs,Target_freq)
     # pyplot.plot(t,f)
     # ax=pyplot.gca()
     # ax.set_xlabel('Time (ns)')
     # ax.set_ylabel('Amplitude') 
     # ax.set_aspect(1e-8)
-    # np.save('Test03_400MHZ_Filter_Ricker.npy',f)
+    # np.save('Test00_400MHz_Ricker.npy',f)
     
     pyplot.figure()
     gci=pyplot.imshow(para.Original_data,extent=(0,2,1,0),cmap=cm.gray,vmin=-50,vmax=50)
@@ -84,4 +96,17 @@ if __name__=='__main__':
     ax.set_yticklabels([0,10,20,30,40])
     ax.set_xlabel('Distance (m)')
     ax.set_ylabel('Time (ns)') 
-    np.save('Test04_400MHZ_Filter_Original_data.npy',para.Original_data)
+    np.save('Add_Noise_Test01_400MHz_Original_data.npy',para.Original_data)
+    
+    pyplot.figure()
+    gci=pyplot.imshow(para.data,extent=(0,2,1,0),cmap=cm.gray,vmin=-50,vmax=50)
+    ax=pyplot.gca()
+    ax.set_xticks(np.linspace(0,2,5))
+    ax.set_xticklabels([0,0.5,1,1.5,2])
+    ax.set_yticks(np.linspace(0,1,5))
+    ax.set_yticklabels([0,10,20,30,40])
+    ax.set_xlabel('Distance (m)')
+    ax.set_ylabel('Time (ns)') 
+    np.save('Add_Noise_Test02_400MHz_Original_data_Filter.npy',para.data)
+    
+    np.save('Add_Noise.npy',Noise)

@@ -12,7 +12,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from skimage import filters
 
 if __name__=='__main__':
-    epsilon_=np.load('./LayerModel/LayerModel.npy')
+    epsilon_=np.load('./1 LayerModelFWI/LayerModel.npy')
     epsilon=np.zeros((120,220))
     epsilon[10:-10,10:-10]=epsilon_
     CPML=10
@@ -33,16 +33,16 @@ if __name__=='__main__':
     iepsilon[:,-CPML:]=iepsilon[:,-CPML-1].reshape((len(iepsilon[:,-CPML-1]),-1))
     iepsilon[:13,:]=1
 
-    data1=np.load('./LayerModel/400000000.0Hz_imodel_file_22_0/4_imodel.npy')
+    data1=np.load('./1 LayerModelFWI/400000000.0Hz_imodel_file_22_0/4_imodel.npy')
     data1=data1.reshape((120,220))
     
-    data2=np.load('./LayerModel_NoMultiply/400000000.0Hz_imodel_file_22_4/4_imodel.npy')
+    data2=np.load('./2 LayerModel_WithoutMultiply/400000000.0Hz_imodel_file_22_4/4_imodel.npy')
     data2=data2.reshape((120,220))
     
-    data3=np.load('./LayerModel_NoRandom/400000000.0Hz_imodel_file_100_0/19_imodel.npy')
+    data3=np.load('./3 LayerModel_WithoutRandomSource/400000000.0Hz_imodel_file_100_0/19_imodel.npy')
     data3=data3.reshape((120,220))
     
-    data4=np.load('./LayerModel_NoTV/400000000.0Hz_imodel_file_22_4/4_imodel.npy')
+    data4=np.load('./4 LayerModel_WithoutTVRegularization/400000000.0Hz_imodel_file_22_4/4_imodel.npy')
     data4=data4.reshape((120,220))
     
     idx=50+10
@@ -56,10 +56,10 @@ if __name__=='__main__':
     pyplot.axes().set_aspect(8e-2)
     l_a1=pyplot.plot(np.arange(len(ep_True))*0.02,ep_True,'b-',label='True Model')
     l_a2=pyplot.plot(np.arange(len(ep_True))*0.02,ep_Init,'k:',label='Initial Model')
-    l_a3=pyplot.plot(np.arange(len(ep_True))*0.02,ep_FWI1,'r-',label='Result of Comprehensive FWI Strategies')
-    l_a4=pyplot.plot(np.arange(len(ep_True))*0.02,ep_FWI2,'c-.',label='Result of FWI without Multi-scale Strategy')
-    l_a5=pyplot.plot(np.arange(len(ep_True))*0.02,ep_FWI3,'y:',label='Result of FWI without Random Excitation Source Strategy')
-    l_a6=pyplot.plot(np.arange(len(ep_True))*0.02,ep_FWI4,'m-.',label='Result of FWI without TV Regularization Strategy')
+    l_a3=pyplot.plot(np.arange(len(ep_True))*0.02,ep_FWI1,'r-',label='Result of Comprehensive FWI (S1) Strategies')
+    l_a4=pyplot.plot(np.arange(len(ep_True))*0.02,ep_FWI2,'c-.',label='Result of FWI without Multi-scale (S2) Strategy')
+    l_a5=pyplot.plot(np.arange(len(ep_True))*0.02,ep_FWI3,'y:',label='Result of FWI without Random Excitation Source (S3) Strategy')
+    l_a6=pyplot.plot(np.arange(len(ep_True))*0.02,ep_FWI4,'m-.',label='Result of FWI without TV Regularization (S4) Strategy')
     ax=pyplot.gca()
     ax.set_xlabel('Depth (m)', fontsize=16)
     ax.set_ylabel('$\epsilon_r$', fontsize=16) 
