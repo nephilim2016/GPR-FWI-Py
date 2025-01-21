@@ -14,8 +14,7 @@ Please refer to the individual scripts for detailed comments on how to run them 
 ## Citation
 If you use this software or adapt it for your work, we kindly ask you to cite our paper:
 
-@article{Wang2025GPRFWIPy, 
-
+@article{Wang2025GPRFWIPy,  
 title={GPR-FWI-Py: Open-Source Python Software for Multi-Scale Regularized Full Waveform Inversion in Ground Penetrating Radar Using Random Excitation Sources},  
 author={Wang, Xiangyu, Hai Liu* and Xu Meng},  
 journal={Computers & Geosciences},  
