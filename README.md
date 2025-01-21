@@ -23,7 +23,7 @@ publisher={Elsevier}}
 
 ## Contact
 For any queries regarding the software or the research, please contact:
-- **Professor Hai Liu**  
+- **Professor Hai Liu (Guangzhou University)**  
   Email: [hliu@gzhu.edu.cn](mailto:hliu@gzhu.edu.cn)
 
 Thank you for visiting our repository and for your interest in GPR-FWI-Py.
