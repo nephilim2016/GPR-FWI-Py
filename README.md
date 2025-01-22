@@ -26,7 +26,4 @@ For any queries regarding the software or the research, please contact:
 - **Professor Hai Liu (Guangzhou University)**  
   Email: [hliu@gzhu.edu.cn](mailto:hliu@gzhu.edu.cn)
 
-- **Postdoctoral Xiangyu Wang (Guangzhou University)**  
-  Email: [nephilim.csu@gmail.com](mailto:nephilim.csu@gmail.com)
-
 Thank you for visiting our repository and for your interest in GPR-FWI-Py.
