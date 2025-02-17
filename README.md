@@ -24,9 +24,7 @@ year = {2025},
 issn = {0098-3004},
 doi = {https://doi.org/10.1016/j.cageo.2025.105870},
 url = {https://www.sciencedirect.com/science/article/pii/S0098300425000202},
-author = {Xiangyu Wang and Hai Liu and Xu Meng and Hesong Hu},
-keywords = {Open-software, Python, Ground Penetrating Radar (GPR), Full Waveform Inversion (FWI)},
-abstract = {Full Waveform Inversion (FWI) of Ground Penetrating Radar (GPR) is crucial for enhancing subsurface imaging, yet its applications often confronts computational and usability challenges. This paper introduces GPR-FWI-Py, a comprehensive 2D GPR FWI code package that addresses these challenges through a multi-scale strategy, a random excitation source strategy, and Total Variation (TV) regularization. Optimized for high-performance computing, the software is developed in pure Python, ensuring both high efficiency and accessibility. Key features include user-friendly design and readability, which empower users to easily adapt and maintain the software to meet specific project needs. Performance evaluations on layered and Over-Thrust models confirm that our strategies significantly improve FWI results. The modular architecture of GPR-FWI-Py not only simplifies the integration of the FWI algorithm into GPR imaging but also enhances adaptability by supporting the introduction of additional functionalities.}
+author = {Xiangyu Wang and Hai Liu and Xu Meng and Hesong Hu}
 }
 
 ## Contact
