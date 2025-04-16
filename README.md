@@ -1,5 +1,5 @@
 # GPR-FWI-Py
-***Note: The code extensively utilizes multiprocessing-based functions and classes, which are incompatible with Windows unless explicitly guarded by an if __name__ == '__main__': clause. This limitation arises because Windows employs the spawn method to initiate new processes, requiring clear protection of the entry point to avoid unintended recursive process spawning.***
+***Note: The code extensively utilizes multiprocessing-based functions and classes, which are incompatible with Windows unless explicitly guarded by an if \_\_name\_\_ == '\_\_main\_\_': clause. This limitation arises because Windows employs the spawn method to initiate new processes, requiring clear protection of the entry point to avoid unintended recursive process spawning.***
 
 Welcome to the GPR-FWI-Py repository! This open-source Python software is developed for multi-scale regularized full waveform inversion in Ground Penetrating Radar (GPR) using random excitation sources. It accompanies our recent publication:
 
